@@ -35,11 +35,10 @@ for (fileIndex,fileName) in enumerate(reuters.fileids()):
 
     
 ##4) Update the dictionary - 2 possible ways
-    ##A) loop over the set of words and update dictionary with log value
+    ##A) loop over the set of words and update dictionary with count value
         ##Complexity- n(set)*n(count operation) = O(n^2)
     ##B) loop over list and update count for each occurence
-        #at the end, loop over set and replace count with log value
-        ##Complexity- n(list)+n(set) = O(n)
+        ##Complexity- n(list) = O(n)
         ##B is better and takes one second lesser time to prepare the index
     for w in listWords:
         if WordDocDict.get(w,0)==0:
@@ -48,8 +47,8 @@ for (fileIndex,fileName) in enumerate(reuters.fileids()):
         else:
             WordDocDict[w][fileIndex]=WordDocDict[w].get(fileIndex,0)
             WordDocDict[w][fileIndex]+=1
-    for w in set(listWords):
-        WordDocDict[w][fileIndex]=1+log(WordDocDict[w][fileIndex])
+    #for w in set(listWords):
+     #   WordDocDict[w][fileIndex]=1+log(WordDocDict[w][fileIndex])
 ###Storing tf scores in dictionary
         
 print "Inverted Index has been prepared and it took"
@@ -70,12 +69,12 @@ QueryList = [w.lower() for w in QueryList if w.isalnum() and len(w)>1 and not sw
 
 ##7) Calculating tf-idf scores 
 for q in QueryList:
-    if WordDocDict.get(q,0)!=0:
-        d=WordDocDict[q]
+    d = WordDocDict.get(q,0) 
+    if d!=0:
         length=len(d)
         for fileIndex in d.keys():
             ResultFileDict[fileIndex] = ResultFileDict.get(fileIndex,0)
-            ResultFileDict[fileIndex]+=(d[fileIndex]*(log(NumDocs/length)/log(10)))
+            ResultFileDict[fileIndex]+=((1+log(d[fileIndex]))*(log(NumDocs/length)/log(10)))
                                         #1st term is tf # 2nd term is idf
 
 ##8) Sorting the dictionary based on its values            
@@ -94,14 +93,14 @@ else:
         if index==10:
             break
         #print tup[0],reuters.fileids()[tup[0]], tup[1]
-        print reuters.raw(fileids=reuters.fileids()[tup[0]])[:400]
+        print reuters.raw(fileids=reuters.fileids()[tup[0]])[:40]
         print "\n"
 
 ###--------------------DEBUG STATEMENTS----------------------
         #string = reuters.raw(fileids=reuters.fileids()[tup[0]])
         #listWords = re.split(r'\W+',string)
         #listWords = [w.lower() for w in listWords if w.isalnum() and len(w)>1 and w not in sw]
-        #print listWords.count(QueryList[0]) , listWords.count(QueryList[1]) , 
+        #print listWords.count(QueryList[0]) , listWords.count(QueryList[1])  
         #print listWords.count(QueryList[2]) , listWords.count(QueryList[3]) ,
         #print listWords.count(QueryList[4]) , listWords.count(QueryList[5]) ,
         #print listWords.count(QueryList[6]) , listWords.count(QueryList[7])
