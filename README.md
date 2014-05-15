@@ -36,11 +36,17 @@ The 'TF_IDF_Search_Reuters.py' performs ranked search, producing the top 10 sear
 
 http://en.wikipedia.org/wiki/Tf%E2%80%93idf
 
+http://nlp.stanford.edu/IR-book/html/htmledition/inverse-document-frequency-1.html
+
+http://nlp.stanford.edu/IR-book/html/htmledition/tf-idf-weighting-1.html
+
+
+
 Overview of Algorithm:
 An inverted index is prepared which is a python dictionary with word as key and a dictionary as value
-This nested dictionary has a document where the word occurs as key and term frequency(tf) value as value
+This nested dictionary has a document where the word occurs as key and log term frequency(tf) value as value
 
 The result-set is a python dictionary with the document index as key and the product of the stored log term-frequency
-and the calculated-on-the-fly-inverted-document-frequency as the value.This product is TF-IDF
+and the calculated-on-the-fly-inverted-document-frequency as the value.This product is TF-IDF.
 
 Then the result-set is reverse-sorted based on it values and the top 10 documents are displayed
