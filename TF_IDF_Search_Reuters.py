@@ -9,7 +9,10 @@ from math import log
 start_time = time.time()
 sw = stopwords.words('english')
 
-    
+swd={}
+
+for w in sw:
+    swd[w]=True    
 
 
 #val = my_dict.get(key, mydefaultval)
@@ -27,7 +30,7 @@ for (fileIndex,fileName) in enumerate(reuters.fileids()):
 
 
     listWords = re.split(r'\W+',string)
-    listWords = [w.lower() for w in listWords if w.isalnum() and len(w)>1 and w not in sw]
+    listWords = [w.lower() for w in listWords if w.isalnum() and len(w)>1 and not swd.get(w.lower(),False)]
     #!!!!!!!!------Possible Improvement: Stemming--------------#
 
     
@@ -63,7 +66,7 @@ start_time = time.time()
 
 ##6) Tokenizing query string to get individual words
 QueryList = re.split(r'\W+',Query)
-QueryList = [w.lower() for w in QueryList if w.isalnum() and len(w)>1 and w not in sw]
+QueryList = [w.lower() for w in QueryList if w.isalnum() and len(w)>1 and not swd.get(w.lower(),False)]
 
 ##7) Calculating tf-idf scores 
 for q in QueryList:
