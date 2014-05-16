@@ -41,6 +41,7 @@ If the search mode is AND, then only the documents where ALL the search terms ar
 If the search mode is OR, then only the documents where ANY of  the search terms are present are displayed.
 
 
+
 Default Search Mode: AND
 
 Overview of Algorithm:
