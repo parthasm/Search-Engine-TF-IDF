@@ -5,7 +5,7 @@ TO BE ADDED: TF IDF SEARCH WITH ALL THE DIFFERENT FORMULA WHICH WILL BE LISTED
 
 Searching a Corpus, using Python.
 
-The corpus used is the Reuters corpus available with "Natural Language Toolkit"(nltk)
+The corpora used till now are the Reuters and movie reviews corpora  available with "Natural Language Toolkit"(nltk)
 
 http://nltk.org/
 
