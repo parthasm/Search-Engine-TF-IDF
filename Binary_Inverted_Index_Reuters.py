@@ -1,32 +1,34 @@
 from __future__ import division
 import time
-from nltk.corpus import reuters
-from nltk.corpus import stopwords
-import re
-#from os import listdir
-from os.path import isfile, join
+import Tokenizer
 from math import log
+
+i = input('Enter within quotes, m for movie reviews corpus,'
+          'r for reuters corpus( default is reuters) : ')
+
+corpus=''
+
+if i=='m' or i=='M':
+    corpus='mr'
+else:
+    corpus='reuters'
+
 start_time = time.time()
-sw = stopwords.words('english')
 
-    
-
+ListFileids =  Tokenizer.get_list_fileids(corpus)
 
 #val = my_dict.get(key, mydefaultval)
 ##1)Create a dictionary with word as key and list of documents where it occurs in sorted order as value
 
 WordDocDict={}
 
-##2)Loop through the reuters dataset, to get the entire text from  each file
+##2)Loop through the dataset, to get the entire text from  each file
 
-for (fileIndex,fileName) in enumerate(reuters.fileids()):
-    string = reuters.raw(fileids=fileName)
+for (fileIndex,fileName) in enumerate(ListFileids):
+    listWords = Tokenizer.get_list_tokens_nltk(corpus,fileName)
 
 ##3) Parse the string to get individual words
 
-
-    listWords = re.split(r'\W+',string)
-    listWords = [w.lower() for w in listWords if w.isalnum() and len(w)>1 and w not in sw]
     #!!!!!!!!------Possible Improvement: Stemming--------------#
 
 
@@ -43,23 +45,22 @@ print time.time() - start_time, "seconds"
 
 
 ##5) Getting the query from the user
-n = int(input("Enter number of query words : "))
+Query = input("Enter your query string : ")
 op = input("Enter the operator, (AND/OR) Default is AND: ")
 
-
-QueryList=[]
+start_time = time.time()
+QueryList=Tokenizer.get_list_tokens_string(Query)
 ResultFileIndices=[]
 
-for i in range(n):
-    QueryList.append(input("Enter query word: "))
 
-start_time = time.time()
+
+
 if op=='OR':
     for query in QueryList:
         if WordDocDict.get(query.lower(), 0)!=0:
             ResultFileIndices.extend(WordDocDict[query.lower()])
 else:
-    FileIndices=range(len(reuters.fileids()))
+    FileIndices=range(len(ListFileids))
     for query in QueryList:
         if WordDocDict.get(query.lower(), 0)==0:
             FileIndices=[]        
@@ -89,7 +90,8 @@ if(len(ResultFileIndices)==0):
     print "Sorry No matches found"
 else:
     print "Number of search results : " , len(ResultFileIndices)
-    #for index in ResultFileIndices:
-     #   print reuters.fileids()[index]
-      #  print reuters.words(fileids=reuters.fileids()[index])[:20]
+    for index in ResultFileIndices:
+        print Tokenizer.get_raw_text(corpus,ListFileids[index])[:40]
+        print "\n"
+      
             
