@@ -1,32 +1,36 @@
 from __future__ import division
 import time
-from nltk.corpus import reuters
-from nltk.corpus import stopwords
 import re
-#from os import listdir
-from os.path import isfile, join
+import Tokenizer
 from math import log
+
+
+i = input('Enter within quotes, m for movie reviews corpus,'
+          'r for reuters corpus( default is reuters) : ')
+
+corpus=''
+
+if i=='m' or i=='M':
+    corpus='mr'
+else:
+    corpus='reuters'
+    
+ListFileids =  Tokenizer.get_list_fileids(corpus)   
+NumDocs = len(ListFileids)    
 start_time = time.time()
-sw = set(stopwords.words('english'))
-
-
-
 #val = my_dict.get(key, mydefaultval)
 ##1)Create a dictionary with word as key and a dictionary with documents where it occurs as keys and term frequency(tf) values as values
 
 WordDocDict={}
-NumDocs = len(reuters.fileids())
+
 
 ##2)Loop through the reuters dataset, to get the entire text from  each file
 
-for (fileIndex,fileName) in enumerate(reuters.fileids()):
-    string = reuters.raw(fileids=fileName)
+for (fileIndex,fileName) in enumerate(ListFileids):
+    
+##3) Parse the string to get individual words    
 
-##3) Parse the string to get individual words
-
-
-    listWords = re.split(r'\W+',string)
-    listWords = [w.lower() for w in listWords if w.isalnum() and len(w)>1 and w.lower() not in sw]
+    listWords = Tokenizer.get_list_tokens_nltk(corpus,fileName)
     #!!!!!!!!------Possible Improvement: Stemming--------------#
 
     
@@ -60,8 +64,8 @@ ResultFileDict={}
 start_time = time.time()
 
 ##6) Tokenizing query string to get individual words
-QueryList = re.split(r'\W+',Query)
-QueryList = [w.lower() for w in QueryList if w.isalnum() and len(w)>1 and w.lower() not in sw]
+QueryList = Tokenizer.get_list_tokens_string(Query)
+
 
 ##7) Calculating tf-idf scores 
 for q in QueryList:
@@ -88,14 +92,13 @@ else:
     for (index,tup) in enumerate(ResultFileIndices):
         if index==10:
             break
-        #print tup[0],reuters.fileids()[tup[0]], tup[1]
-        print reuters.raw(fileids=reuters.fileids()[tup[0]])[:40]
+        #print tup[0],ListFileids[tup[0]], tup[1]
+        print Tokenizer.get_raw_text(corpus,ListFileids[tup[0]])[:40]
         print "\n"
 
 ###--------------------DEBUG STATEMENTS----------------------
-        #string = reuters.raw(fileids=reuters.fileids()[tup[0]])
-        #listWords = re.split(r'\W+',string)
-        #listWords = [w.lower() for w in listWords if w.isalnum() and len(w)>1 and w not in sw]
+        #string = Tokenizer.get_raw_text(corpus,ListFileids[tup[0]])
+        #listWords = Tokenizer.get_list_tokens_string(string)
         #print listWords.count(QueryList[0]) , listWords.count(QueryList[1])  
         #print listWords.count(QueryList[2]) , listWords.count(QueryList[3]) ,
         #print listWords.count(QueryList[4]) , listWords.count(QueryList[5]) ,
