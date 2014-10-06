@@ -1,6 +1,5 @@
 from __future__ import division
 import time
-import re
 import Tokenizer
 from math import log
 
