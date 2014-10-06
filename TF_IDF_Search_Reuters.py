@@ -13,10 +13,12 @@ if i=='m' or i=='M':
     corpus='mr'
 else:
     corpus='reuters'
+
+start_time = time.time()
     
 ListFileids =  Tokenizer.get_list_fileids(corpus)   
 NumDocs = len(ListFileids)    
-start_time = time.time()
+
 #val = my_dict.get(key, mydefaultval)
 ##1)Create a dictionary with word as key and a dictionary with documents where it occurs as keys and term frequency(tf) values as values
 
