@@ -13,9 +13,7 @@ if i=='m' or i=='M':
     corpus='mr'
 else:
     corpus='reuters'
-
-start_time = time.time()
-    
+start_time = time.time()    
 ListFileids =  Tokenizer.get_list_fileids(corpus)   
 NumDocs = len(ListFileids)    
 
@@ -25,7 +23,7 @@ NumDocs = len(ListFileids)
 WordDocDict={}
 
 
-##2)Loop through the reuters dataset, to get the entire text from  each file
+##2)Loop through the dataset, to get the entire text from  each file
 
 for (fileIndex,fileName) in enumerate(ListFileids):
     
