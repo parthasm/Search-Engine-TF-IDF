@@ -1,8 +1,6 @@
 Search-Engine-TF-IDF
 =============
 
-TO BE ADDED: TF IDF SEARCH WITH ALL THE DIFFERENT FORMULA WHICH WILL BE LISTED
-
 Searching a Corpus, using Python.
 
 The corpora used till now are the Reuters and movie reviews corpora  available with "Natural Language Toolkit"(nltk)
@@ -58,3 +56,10 @@ For an 'AND' query, we walk through the sorted lists and only the documents pres
 The time required to prepare the inverted index and the time required to return the search results are also reported.
 
 
+TO BE ADDED: TF IDF SEARCH WITH ALL THE DIFFERENT FORMULA WHICH WILL BE LISTED
+
+CURRENT FORMULA: tf-idf = ((1+log(wij))*(log(NumDocs/ni)/log(10)))
+
+wij - no. of times a word i appears in a document j
+
+ni - no. of documents which have the word i
