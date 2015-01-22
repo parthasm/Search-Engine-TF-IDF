@@ -63,3 +63,5 @@ CURRENT FORMULA: tf-idf = ((1+log(wij))*(log(NumDocs/ni)/log(10)))
 wij - no. of times a word i appears in a document j
 
 ni - no. of documents which have the word i
+
+log is natural log with base e
