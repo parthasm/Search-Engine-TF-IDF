@@ -55,7 +55,7 @@ result_file_indices=[]
 
 
 
-if op=='OR':
+if op=='OR' or op=='or':
     for q in query_list:
         if word_doc_dict.get(q.lower(), 0)!=0:
             result_file_indices.extend(word_doc_dict[q.lower()])
