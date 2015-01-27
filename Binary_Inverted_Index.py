@@ -15,17 +15,17 @@ else:
 
 start_time = time.time()
 
-ListFileids =  Tokenizer.get_list_fileids(corpus)
+list_fileids =  Tokenizer.get_list_fileids(corpus)
 
 #val = my_dict.get(key, mydefaultval)
 ##1)Create a dictionary with word as key and list of documents where it occurs in sorted order as value
 
-WordDocDict={}
+word_doc_dict={}
 
 ##2)Loop through the dataset, to get the entire text from  each file
 
-for (fileIndex,fileName) in enumerate(ListFileids):
-    listWords = Tokenizer.get_list_tokens_nltk(corpus,fileName)
+for (file_index,file_name) in enumerate(list_fileids):
+    list_words = Tokenizer.get_list_tokens_nltk(corpus,file_name)
 
 ##3) Parse the string to get individual words
 
@@ -33,11 +33,11 @@ for (fileIndex,fileName) in enumerate(ListFileids):
 
 
 ##4) Update the dictionary
-    for w in set(listWords):
-        if WordDocDict.get(w,0)==0:
-           WordDocDict[w]=[]
+    for w in set(list_words):
+        if word_doc_dict.get(w,0)==0:
+           word_doc_dict[w]=[]
            
-        WordDocDict[w].append(fileIndex)
+        word_doc_dict[w].append(file_index)
 
 print "Inverted Index has been prepared and it took"
 print time.time() - start_time, "seconds"
@@ -45,53 +45,53 @@ print time.time() - start_time, "seconds"
 
 
 ##5) Getting the query from the user
-Query = input("Enter your query string : ")
+query = input("Enter your query string : ")
 op = input("Enter the operator, (AND/OR) Default is AND: ")
 
 start_time = time.time()
-QueryList=Tokenizer.get_list_tokens_string(Query)
-ResultFileIndices=[]
+query_list=Tokenizer.get_list_tokens_string(query)
+result_file_indices=[]
 
 
 
 
 if op=='OR':
-    for query in QueryList:
-        if WordDocDict.get(query.lower(), 0)!=0:
-            ResultFileIndices.extend(WordDocDict[query.lower()])
+    for q in query_list:
+        if word_doc_dict.get(q.lower(), 0)!=0:
+            result_file_indices.extend(word_doc_dict[q.lower()])
 else:
-    FileIndices=range(len(ListFileids))
-    for query in QueryList:
-        if WordDocDict.get(query.lower(), 0)==0:
-            FileIndices=[]        
+    file_indices=range(len(list_fileids))
+    for q in query_list:
+        if word_doc_dict.get(q.lower(), 0)==0:
+            file_indices=[]        
             break
         else:
-            TempList=[]
-            QueryFileIndices=WordDocDict[query.lower()]
-            indexF=0
-            indexQ=0
-            while indexF < len(FileIndices) and indexQ < len(QueryFileIndices):
-                if FileIndices[indexF]==QueryFileIndices[indexQ]:
-                    TempList.append(QueryFileIndices[indexQ])
-                    indexF+=1
-                    indexQ+=1
-                elif FileIndices[indexF] < QueryFileIndices[indexQ]:
-                    indexF+=1
+            temp_list=[]
+            query_file_indices=word_doc_dict[q.lower()]
+            index_f=0
+            index_q=0
+            while index_f < len(file_indices) and index_q < len(query_file_indices):
+                if file_indices[index_f]==query_file_indices[index_q]:
+                    temp_list.append(query_file_indices[index_q])
+                    index_f+=1
+                    index_q+=1
+                elif file_indices[index_f] < query_file_indices[index_q]:
+                    index_f+=1
                 else:
-                    indexQ+=1
-            FileIndices=[]
-            FileIndices.extend(TempList)
-    ResultFileIndices.extend(FileIndices)
+                    index_q+=1
+            file_indices=[]
+            file_indices.extend(temp_list)
+    result_file_indices.extend(file_indices)
 
 print "Time taken to search"
 print time.time() - start_time, "seconds"
 
-if(len(ResultFileIndices)==0):
+if(len(result_file_indices)==0):
     print "Sorry No matches found"
 else:
-    print "Number of search results : " , len(ResultFileIndices)
-    for index in ResultFileIndices:
-        print Tokenizer.get_raw_text(corpus,ListFileids[index])[:40]
+    print "Number of search results : " , len(result_file_indices)
+    for index in result_file_indices:
+        print Tokenizer.get_raw_text(corpus,list_fileids[index])[:40]
         print "\n"
       
             
